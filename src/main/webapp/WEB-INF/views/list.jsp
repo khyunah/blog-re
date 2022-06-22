@@ -4,18 +4,19 @@
 	<main class="container">
 
 	<h2>테스트 코드</h2>
+	<!-- 보더 컨트롤러에서 model.addAttribute("boards", boards)의 "boards"로 접근할 수 있게 되는것 -->
 		<!-- items="${boards.content}"에 담긴 리스트 하나씩 돈다 -->
 		<c:forEach var="board" items="${boards.content}">
 			<div class="card col-md-12 m-2">
 				<div class="card-body">
 					<h4 class="card-title">${board.title}</h4>
-					<a href="#" class="btn btn-primary">상세보기</a>
+					<a href="/board/${board.id}" class="btn btn-primary">상세보기</a>
 				</div>
 			</div>
 		</c:forEach>
 		<br/>
 		
-	<!-- pageable.pageNumber 현재 페이지를 나타낸다. -->
+		<!-- pageable.pageNumber 현재 페이지를 나타낸다. -->
 
 		<ul class="pagination justify-content-center" >
 			<c:choose>
