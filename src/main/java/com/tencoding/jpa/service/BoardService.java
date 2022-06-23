@@ -29,13 +29,38 @@ public class BoardService {
 
 	@Transactional
 	public Board 글상세보기(int id) {
-		Board board = boardRepository.findById(id).orElseThrow(() -> {
+		Board board = boardRepository.mFindById(id).orElseThrow(() -> {
 			return new RuntimeException("해당글은 삭제 되었습니다.");
 		});
+		
+//		Board board = boardRepository.findById(id).orElseThrow(() -> {
+//			return new RuntimeException("해당글은 삭제 되었습니다.");
+//		});
 		
 		// 더티 채킹 할것 - 조회수 증가 
 		board.setReadCount(board.getReadCount() + 1);
 		
 		return board;
+	}
+	
+	@Transactional
+	public void 글수정하기(int id, BoardSaveRequestDto dto) {
+		Board boardEntity = boardRepository.findById(id).orElseThrow(() -> {
+			return new RuntimeException("해당글은 없는 데이터 입니다.");
+		});
+		boardEntity.setTitle(dto.getTitle());
+		boardEntity.setContent(dto.getContent());
+		
+		// 트랜젝션을 이용하면 이 메서드가 종료되는 시점에 더티체킹 발생
+	}
+	
+	@Transactional
+	public int 글삭제하기(int id) {
+		// 삭제 첫번째 방법
+		// void 인 이유 : 없는 것을 삭제해도 삭제되었다고 나오기때문에 
+//		boardRepository.deleteById(id);
+		
+		// 삭제 두번째 방법
+		return boardRepository.mDeleteById(id);
 	}
 }
